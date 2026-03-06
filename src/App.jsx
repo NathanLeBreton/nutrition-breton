@@ -1,35 +1,32 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Aujourd'hui from './pages/Aujourdhui'
+import Historique from './pages/Historique'
+import Parametres from './pages/Parametres'
+import BottomNav from './components/BottomNav'
+import Toast from './components/Toast'
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [view, setView] = useState('aujourdhui')
+  const [toast, setToast] = useState(null)
+  const [refreshKey, setRefreshKey] = useState(0)
+
+  const showToast = (msg) => setToast(msg)
+
+  const refresh = () => setRefreshKey(k => k + 1)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div style={{
+      maxWidth: 430, margin: '0 auto',
+      height: '100dvh', display: 'flex', flexDirection: 'column',
+      background: '#0d0d14', position: 'relative', overflow: 'hidden',
+    }}>
+      {view === 'aujourdhui'  && <Aujourdhui refreshKey={refreshKey} onRefresh={refresh} showToast={showToast} />}
+      {view === 'historique'  && <Historique refreshKey={refreshKey} />}
+      {view === 'parametres'  && <Parametres showToast={showToast} onSaved={refresh} />}
+
+      <BottomNav current={view} onNav={setView} />
+
+      {toast && <Toast message={toast} onDone={() => setToast(null)} />}
+    </div>
   )
 }
-
-export default App
