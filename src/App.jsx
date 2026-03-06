@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Aujourd'hui from './pages/Aujourdhui'
+import Aujourdhui from './pages/Aujourdhui'
 import Historique from './pages/Historique'
 import Parametres from './pages/Parametres'
 import BottomNav from './components/BottomNav'
